@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Matador de Monstro</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <div class="panel pontos"> <!--- Pontos de Vidas-->
+            <div class="ponto"> 
+                <h1>Jogador</h1>
+                <div class="vidaBarra">
+                    <div class="vidaProgesso"
+                         :class="{perigo: vidaJogador < 20}"
+                         :style="{width: vidaJogador + '%'}"></div>
+                </div>
+                <div> {{vidaJogador}} %</div>
+            </div>
+            <div class="ponto"> 
+                <h1>Monstro</h1>
+                <div class="vidaBarra">
+                    <div class="vidaProgesso"
+                         :class="{perigo: vidaMonstro < 20}"
+                         :style="{width: vidaMonstro + '%'}"></div>
+                </div>
+                <div> {{vidaMonstro}} %</div>
+            </div>
+        </div>
+
+        <div v-if="resultado" class="panel resultado"> <!-- Resultado-->
+            <div v-if='vidaMonstro == 0' class="vitoria">Você Ganhou :)</div>
+            <div v-else class="derrota">Você Perdeu :(</div>
+        </div>
+
+        <div class="panel botoes"><!-- Jogabilidade -->
+            <template v-if="inicio">
+                <button @click="ataque(false)" class="btn ataque">Ataque</button>
+                <button @click="ataque(true)" class="btn especial">Ataque Especial</button>
+                <button @click="curaAndAtaque" class="btn curar">Curar</button>
+                <button @click="inicio = false" class="btn desistir">Desistir</button>
+            </template>
+            <button v-else @click="jogar" class="btn inicio">Iniciar Jogo</button>
+        </div> 
+
+        <div v-if="logs.length" class="panel logs"> <!-- Logs-->
+            <ul>
+                <li v-for="log in logs" :class="log.cls" class="log">
+                    {{ log.text}}
+                </li>
+            </ul>
+        </div> 
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
